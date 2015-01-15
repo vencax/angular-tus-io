@@ -26,11 +26,13 @@ angular.module('tus.io', ['ng'])
       // false -> removes resume functionality
       resumable: options.resumable !== undefined ? options.resetBefore : true,
       headers: options.headers !== undefined ? options.headers : {},
-      chunkSize: options.chunkSize
+      chunkSize: options.chunkSize,
+      maxretry: options.maxretry !== undefined ? options.maxretry : 4
     };
 
     // The url of the uploaded file, assigned by the tus upload endpoint
     this.fileUrl = null;
+    this.retryCount = 0;
 
     this.chunkQueue = [];
 
@@ -174,7 +176,7 @@ angular.module('tus.io', ['ng'])
 
     // console.log('Chunk ' + ch[0] + '->' + ch[1]);
 
-    function _send(data) {
+    function _prepareChunk(data) {
 
       var req = {
         method: 'PATCH',
@@ -186,17 +188,25 @@ angular.module('tus.io', ['ng'])
         headers: headers
       };
 
-      $http(req).success(function(data, status, headers, config) {
-        self.bytesWritten += config.data.byteLength;
-        self._deferred.notify(self.bytesWritten);
-        self._uploadChunk(chunkQueue);
-      }).error(function(data, status, headers, config) {
-        // TODO: retry
-        self._emitFail(status);
-        return;
-      });
+      function _send() {
+        $http(req).success(function(data, status, headers, config) {
+          self.bytesWritten += config.data.byteLength;
+          self._deferred.notify(self.bytesWritten);
+          self.retryCount = 0;
+          self._uploadChunk(chunkQueue);
+        }).error(function(data, status, headers, config) {
+          // TODO: smaller chunk?
+          if(self.retryCount > self.options.maxretry) {
+            return self._emitFail(status);
+          }
+          self.retryCount += 1
+          _send(data);
+        });
+      }
+
+      _send();
     }
-    this.reader.onload = _send;
+    this.reader.onload = _prepareChunk;
     this.reader.readAsArrayBuffer(blob);
   };
 
