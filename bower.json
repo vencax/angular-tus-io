@@ -1,6 +1,6 @@
 {
   "author": "Vaclav Klecanda",
-  "name": "angular-tus-client",
+  "name": "angular-tus-io",
   "description": "TUS.io client using AngularJS only",
   "version": "0.0.2",
   "homepage": "https://github.com/vencax/angular-tus-io",
