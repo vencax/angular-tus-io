@@ -106,12 +106,17 @@ angular.module('tus.io', ['ng'])
       self._uploadFile(offset ? parseInt(offset, 10) : 0);
     }).error(function(data, status, headers, config) {
       // @TODO: Implement retry support
-      if(status === 404){
+      if (status === 404){
         // not valid, not on server
         // start with post request and restart upload
         self._post();
-      }else{
-        self._emitFail('Could not head at file resource: ' + data);
+      } else {
+        var m = 'Could not head at file resource ';
+        if(status === 0) {
+          m += ', CORS problem? :';
+        }
+        m += status + '(' + data + ')';
+        self._emitFail(m);
       }
     });
   };
