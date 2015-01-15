@@ -2,6 +2,16 @@
 
 [TUS.io](http://www.tus.io/) client with angular as the only dependency.
 
+## features
+
+- HTML5 FileAPI used
+- per chunk uploads
+- chunk retry mechanism
+
+### planned
+
+- CRC of chunks
+- variable chunk size
 
 ## example of usage
 
