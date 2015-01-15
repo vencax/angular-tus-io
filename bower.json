@@ -1,0 +1,25 @@
+{
+  "author": "Vaclav Klecanda",
+  "name": "angular-tus-client",
+  "description": "TUS.io client using AngularJS only",
+  "version": "0.0.2",
+  "homepage": "https://github.com/vencax/angular-tus-io",
+  "ignore": [],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vencax/angular-tus-io"
+  },
+  "devDependencies": {
+    "angular": "~1.2.26",
+    "angular-mocks": "~1.2.26"
+  },
+  "resolutions": {
+    "angular": "~1.2"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ]
+}
