@@ -2,6 +2,10 @@
 
 [TUS.io](http://www.tus.io/) client with angular as the only dependency.
 
+## installation
+
+bower install angular-tus-io
+
 ## features
 
 - HTML5 FileAPI used
