@@ -76,7 +76,7 @@ angular.module('tus.io', ['ng'])
       method: 'POST',
       url: this.options.endpoint,
       headers: headers,
-      data: { test: 'test' },
+      data: (this.file.formdata !== undefined) ? this.file.formdata : {},
     };
 
     $http(req).success(function(data, status, headers, config) {
