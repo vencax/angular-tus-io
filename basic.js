@@ -29,6 +29,7 @@ angular.module('tus.io', ['ng'])
       chunkSize: options.chunkSize,
       maxretry: options.maxretry !== undefined ? options.maxretry : 4
     };
+    this.options.headers['tus-resumable'] = '1.0.0';
 
     // The url of the uploaded file, assigned by the tus upload endpoint
     this.fileUrl = null;
@@ -68,15 +69,18 @@ angular.module('tus.io', ['ng'])
   BasicClient.prototype._post = function() {
     var self = this;
     var headers = {
-      'Final-Length': this.file.size
+      'Upload-Length': this.file.size
     };
     angular.extend(headers, this.options.headers);
+
+    if(this.file.desiredfilename !== undefined) {
+      headers['Upload-Metadata'] = 'filename ' + this.file.desiredfilename;
+    }
 
     var req = {
       method: 'POST',
       url: this.options.endpoint,
-      headers: headers,
-      data: (this.file.formdata !== undefined) ? this.file.formdata : {},
+      headers: headers
     };
 
     $http(req).success(function(data, status, headers, config) {
@@ -98,7 +102,7 @@ angular.module('tus.io', ['ng'])
     var self = this;
     var req = {
       method: 'HEAD',
-      url: this.fileUrl,
+      url: this.options.endpoint + this.fileUrl,
       cache: false,
       headers: this.options.headers
     };
@@ -166,7 +170,7 @@ angular.module('tus.io', ['ng'])
     var ch = chunkQueue.shift();
 
     var headers = {
-      'Offset': ch[0],
+      'upload-offset': ch[0],
       'Content-Type': 'application/offset+octet-stream'
     };
 
@@ -180,7 +184,7 @@ angular.module('tus.io', ['ng'])
 
       var req = {
         method: 'PATCH',
-        url: self.fileUrl,
+        url: self.options.endpoint + self.fileUrl,
         data: data.target.result,
         transformRequest: [],
         contentType: self.file.type,
