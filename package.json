@@ -1,0 +1,26 @@
+{
+  "name": "angular-tus-io",
+  "title": "Cargo web client",
+  "description": "TUS.io client using AngularJS only",
+  "version": "1.0.0",
+  "author": {
+    "name": "Vaclav vencax Klecanda <info@vxk.cz>"
+  },
+  "keywords": ["TUS.io", "upload", "resumable"],
+  "contributors": ["vencax"],
+  "bugs": "https://github.com/vencax/angular-tus-io/issues",
+  "homepage": "https://github.com/vencax/angular-tus-io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vencax/angular-tus-io"
+  },
+  "dependencies": {
+    "angular": "~1.2.26"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ]
+}
