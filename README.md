@@ -1,4 +1,4 @@
-# angular-tus-io
+# angular-tus-io  UNMAINTAINED!!!!!!
 
 [TUS.io](http://www.tus.io/) client with angular as the only dependency.
 
